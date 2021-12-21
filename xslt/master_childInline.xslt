@@ -49,9 +49,9 @@
     </xsl:variable>
 
     <div class="row">
-      <div class="col-md-12">
-        <div class="box-header with-border" style="background:white">
-          <h5 class="dashboard-title" style="text-align:center; margin-bottom:20px;">
+      <div class="col-md-12" style="padding-left:40px; padding-right:40px;">
+        <div class="box-header with-border" >
+          <h5 class="dashboard-title" style="text-align:center; margin-bottom:20px; padding-top:30px;">
             <xsl:value-of select="sqroot/body/bodyContent/browse/info/description"/>
           </h5>
           <div style=" margin-bottom:20px;">
@@ -71,6 +71,7 @@
                     <tr style="border-top: 5px #DDDDDD solid; color:#6D6D77; font-weight:bold">
                       <th class="cell-recordSelectors" style="width:28px;">&#xA0;</th>
                       <xsl:apply-templates select="sqroot/body/bodyContent/browse/header"/>
+                      <th  style="width:28px;">&#xA0;</th>
                     </tr>
                   </thead>
                   <tbody id="{$lowerCode}">
@@ -92,12 +93,13 @@
                   <button id="child_button_add" class="flat-button-form border-radius-2"  style="margin-right:5px;margin-bottom:5px;"
                           onclick="cell_add('{$lowerCode}', columns_{/sqroot/body/bodyContent/browse/info/code}, {count(/sqroot/body/bodyContent/browse/children)}, this);">ADD</button>
                 </xsl:if>
-                <button id="child_button_save" class="flat-button-form border-radius-2" style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_save();">SAVE</button>
-                <button id="child_button_cancel" class="flat-button-form flat-btn-grey " style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_cancelSave()">CANCEL</button>
-
+                <button id="cell_button_save" class="flat-button-form border-radius-2" style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_save();">SAVE</button>
+                <button id="cell_button_cancel" class="flat-button-form flat-btn-grey " style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_cancelSave()">CANCEL</button>
+		<!--
                 <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowDelete/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
-                  <button id="child_button_delete" class="flat-button-form flat-btn-grey " style="margin-right:5px;margin-bottom:5px;" onclick="cell_delete('{$lowerCode}', this)">DELETE</button>
+                  <button id="cell_button_delete" class="flat-button-form flat-btn-grey " style="margin-right:5px;margin-bottom:5px;" onclick="cell_delete('{$lowerCode}', this)">DELETE</button>
                 </xsl:if>
+		-->
                 <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)=1 and (/sqroot/body/bodyContent/browse/info/permission/allowExport/.)=1" >
                   <button id="child_button_download" class="btn btn-gray-a" style="margin-right:5px;margin-bottom:5px;"
                           onclick="downloadChild('{/sqroot/body/bodyContent/browse/info/code}', '')">DOWNLOAD</button>
@@ -166,6 +168,7 @@
 
   <xsl:template match="sqroot/body/bodyContent/browse/content/row">
 
+    <xsl:variable name="pageNo" select="/sqroot/body/bodyContent/browse/info/pageNo" />
     <tr id="tr1_{@code}{@GUID}" data-parent="#{/sqroot/body/bodyContent/browse/info/code}" data-target="#{@code}{@GUID}"
         data-code="{@code}" data-guid="{@GUID}"
         onmouseover="this.bgColor='lavender';this.style.cursor='pointer';" onmouseout="this.bgColor='white'">
@@ -177,6 +180,11 @@
       
       <td class="cell-recordSelector"></td>
       <xsl:apply-templates select="fields/field"/>
+      <td>
+        <a href="javascript:btn_function('{@code}','{@GUID}','inactivate','{$pageNo}',10)" >
+          <ix class="fa fa-trash fa-lg" data-toggle="tooltip" title="Delete" data-placement="left"/>
+        </a>
+      </td>
     </tr>
     <tr id="tr2_{@code}{@GUID}" style="display:none">
       <td colspan="100">
