@@ -80,7 +80,7 @@
                   <label class="input-group-btn">
                     <span class="flat-button-form border-radius-2">
                       PO
-                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}" 
+                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}"
                             style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formPO', 'PO')"/>
                     </span>
                   </label>
@@ -127,7 +127,7 @@
                   </script>
                   <label class="input-group-btn">
                     <span class="flat-button-form border-radius-2">
-                      Faktur Pajak
+                      Faktur
                       <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}"
                            style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formFaktur', 'Faktur')"/>
                     </span>
@@ -151,15 +151,16 @@
                   <input id="DGTdocFile" name="docFile" Value="" type="hidden" class="form-control" readonly="" />
                   <input name="docType" value="9F6D8A18-9ADB-4E60-9704-965E9CEAE798" type="hidden" readonly="" />
                 </form>
-               <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
+                
+                <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
                   <!--<button id="child_button_add" class="flat-button-form border-radius-2"  style="margin-right:5px;margin-bottom:5px;"
                           onclick="cell_add('{$lowerCode}', columns_{/sqroot/body/bodyContent/browse/info/code}, {count(/sqroot/body/bodyContent/browse/children)}, this);">ADD</button>-->
                 </xsl:if>
-                <button id="cell_button_save" class="flat-button-form border-radius-2" style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_save();">SAVE</button>
-                <button id="cell_button_cancel" class="flat-button-form flat-btn-grey " style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_cancelSave()">CANCEL</button>
+                <button id="child_button_save" class="flat-button-form border-radius-2" style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_save();">SAVE</button>
+                <button id="child_button_cancel" class="flat-button-form flat-btn-grey " style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_cancelSave()">CANCEL</button>
 
                 <!--<xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowDelete/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
-                  <button id="cell_button_delete" class="flat-button-form flat-btn-grey " style="margin-right:5px;margin-bottom:5px;" onclick="cell_delete('{$lowerCode}', this)">DELETE</button>
+                  <button id="child_button_delete" class="flat-button-form flat-btn-grey " style="margin-right:5px;margin-bottom:5px;" onclick="cell_delete('{$lowerCode}', this)">DELETE</button>
                 </xsl:if>-->
                 <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)=1 and (/sqroot/body/bodyContent/browse/info/permission/allowExport/.)=1" >
                   <button id="child_button_download" class="btn btn-gray-a" style="margin-right:5px;margin-bottom:5px;"
@@ -179,10 +180,6 @@
                     childPageNo('childPageNo', code, pageNo, nbPages);
                   </script>
                 </xsl:if>
-		<div style="clear:both">&#xA0;</div>
-                <p style="font-size:13px; font-weight:bold; width:70%">*Note : DGT form is a form of Indonesian tax authority that must be completed by overseas service vendors.
-		DGT Form must have signature and approval from the tax authorities in the country as evidence that the vendor is a taxpayer in his country</p>
-               
               </div>
             </div>
           </div>
@@ -297,7 +294,7 @@
         </td>
       </xsl:when>
       <xsl:when test="@editor">
-        <td class="cell cell-editor-{@editor}" data-id="{@id}" data-olds="{.}" data-field="{@caption}" data-preview="{@preview}" data-wf1="{@wf1}" data-wf2="{@wf2}">
+        <td class="cell cell-editor-{@editor}" data-id="{@id}" data-field="{@caption}" data-preview="{@preview}" data-wf1="{@wf1}" data-wf2="{@wf2}">
           <xsl:attribute name="align">
             <xsl:choose>
               <xsl:when test="@align=0">left</xsl:when>

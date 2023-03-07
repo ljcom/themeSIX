@@ -18,8 +18,27 @@
     <script>
       var code='<xsl:value-of select="/sqroot/body/bodyContent/browse/info/code"/>';
       cell_init(code);
-      
-      
+
+      upload_init(code, function(data) {
+      var err=''; s=0;
+      $(data).find("sqroot").find("message").each(function (i) {
+      var item=$(data).find("sqroot").find("message").eq(i);
+      if ($(item).text()!='') err += $(item).text()+' ';
+      })
+
+      $(data).find("sqroot").find("guid").each(function (i) {
+      var sn=$(data).find("sqroot").find("guid").eq(i);
+      if (sn!='') s++;
+      })
+      var msg='Upload Status: Success: '+s+(err==''?'':' Error: '+err);
+      showMessage(msg);
+      //setTimeout(function() {location.reload()}, 5000);
+
+      var code='<xsl:value-of select="/sqroot/body/bodyContent/browse/info/code"/>';
+      loadChild(code);
+
+      });
+
       var columns_<xsl:value-of select="/sqroot/body/bodyContent/browse/info/code"/>=[];
 
     </script>
@@ -30,9 +49,9 @@
     </xsl:variable>
 
     <div class="row">
-      <div class="col-md-12" style="padding-right:40px; padding-left:40px;">
-        <div class="box-header with-border" style="background:white; ">
-          <h5 class="dashboard-title" style="text-align:center; margin-bottom:20px;">
+      <div class="col-md-12" style="padding-left:40px; padding-right:40px;">
+        <div class="box-header with-border" style="background:white">
+          <h5 class="dashboard-title" style="text-align:center; margin-bottom:20px; padding-top:30px;">
             <xsl:value-of select="sqroot/body/bodyContent/browse/info/description"/>
           </h5>
           <div style=" margin-bottom:20px;">
@@ -69,98 +88,18 @@
                 </table>
               </div>
               <!-- /.box-body -->
-             
               <div class="box-footer clearfix">
-                <form id="formPO" style="display:inline-table;">
-                  <input type="hidden" name="docguid" id="PKPOtoinvcdetl" value=""/>
-                  <script>
-                    code = 'toinvcdetl';
-                    $('#PKPO'+code).val(getGUID());
-                  </script>
-                  <label class="input-group-btn">
-                    <span class="flat-button-form border-radius-2">
-                      PO
-                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}" 
-                            style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formPO', 'PO')"/>
-                    </span>
-                  </label>
-                  <input id="POdocFile" name="docFile" Value="" type="hidden" class="form-control" readonly="" />
-                  <input name="docType" value="042559C7-2324-401F-A286-407039C8BB76" type="hidden" readonly="" />
-                </form>
-                <form id="formInv" style="display:inline-table;">
-                  <input type="hidden" name="docguid" id="PKInvtoinvcdetl" value=""/>
-                  <script>
-                    code = 'toinvcdetl';
-                    $('#PKInv'+code).val(getGUID());
-                  </script>
-                  <label class="input-group-btn">
-                    <span class="flat-button-form border-radius-2">
-                      Invoice
-                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}"
-                           style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formInv', 'Inv')"/>
-                    </span>
-                  </label>
-                  <input id="InvdocFile" name="docFile" Value="" type="hidden" class="form-control" readonly="" />
-                  <input name="docType" value="09005661-CD2C-4E73-A30A-3BB95B9201AA" type="hidden" readonly="" />
-                </form>
-                <form id="formDN" style="display:inline-table;">
-                  <input type="hidden" name="docguid" id="PKDNtoinvcdetl" value=""/>
-                  <script>
-                    code = 'toinvcdetl';
-                    $('#PKDN'+code).val(getGUID());
-                  </script>
-                  <label class="input-group-btn">
-                    <span class="flat-button-form border-radius-2">
-                      Delivery Note
-                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}"
-                           style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formDN', 'DN')"/>
-                    </span>
-                  </label>
-                  <input id="DNdocFile" name="docFile" Value="" type="hidden" class="form-control" readonly="" />
-                  <input name="docType" value="22A8AD32-5AFC-42A4-B4E0-14F24867A7EC" type="hidden" readonly="" />
-                </form>
-                <form id="formFaktur" style="display:inline-table;">
-                  <input type="hidden" name="docguid" id="PKFakturtoinvcdetl" value=""/>
-                  <script>
-                    code = 'toinvcdetl';
-                    $('#PKFaktur'+code).val(getGUID());
-                  </script>
-                  <label class="input-group-btn">
-                    <span class="flat-button-form border-radius-2">
-                      Faktur Pajak
-                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}"
-                           style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formFaktur', 'Faktur')"/>
-                    </span>
-                  </label>
-                  <input id="FakturdocFile" name="docFile" Value="" type="hidden" class="form-control" readonly="" />
-                  <input name="docType" value="F66B34CE-4167-4188-B523-05999E712B0B" type="hidden" readonly="" />
-                </form>
-                <form id="formDGT" style="display:inline-table;">
-                  <input type="hidden" name="docguid" id="PKDGTtoinvcdetl" value=""/>
-                  <script>
-                    code = 'toinvcdetl';
-                    $('#PKDGT'+code).val(getGUID());
-                  </script>
-                  <label class="input-group-btn">
-                    <span class="flat-button-form border-radius-2">
-                      DGT
-                      <input id ="docFile_hidden" name="docFile_hidden" type="file" data-code="{/sqroot/body/bodyContent/form/info/code/.}"
-                           style="display: none;" multiple="" onchange="batchUpload('{/sqroot/body/bodyContent/browse/info/code/.}', '00000000-0000-0000-0000-000000000000', 40, 'formDGT', 'DGT')"/>
-                    </span>
-                  </label>
-                  <input id="DGTdocFile" name="docFile" Value="" type="hidden" class="form-control" readonly="" />
-                  <input name="docType" value="9F6D8A18-9ADB-4E60-9704-965E9CEAE798" type="hidden" readonly="" />
-                </form>
-               <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
-                  <!--<button id="child_button_add" class="flat-button-form border-radius-2"  style="margin-right:5px;margin-bottom:5px;"
-                          onclick="cell_add('{$lowerCode}', columns_{/sqroot/body/bodyContent/browse/info/code}, {count(/sqroot/body/bodyContent/browse/children)}, this);">ADD</button>-->
+                <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
+                  <button id="child_button_add" class="flat-button-form border-radius-2"  style="margin-right:5px;margin-bottom:5px;"
+                          onclick="cell_add('{$lowerCode}', columns_{/sqroot/body/bodyContent/browse/info/code}, {count(/sqroot/body/bodyContent/browse/children)}, this);">ADD</button>
                 </xsl:if>
-                <button id="cell_button_save" class="flat-button-form border-radius-2" style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_save();">SAVE</button>
-                <button id="cell_button_cancel" class="flat-button-form flat-btn-grey " style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_cancelSave()">CANCEL</button>
-
-                <!--<xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowDelete/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
-                  <button id="cell_button_delete" class="flat-button-form flat-btn-grey " style="margin-right:5px;margin-bottom:5px;" onclick="cell_delete('{$lowerCode}', this)">DELETE</button>
-                </xsl:if>-->
+                <button id="child_button_save" class="flat-button-form border-radius-2" style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_save();">SAVE</button>
+                <button id="child_button_cancel" class="flat-button-form flat-btn-grey " style="display:none; margin-right:5px;margin-bottom:5px;" onclick="cell_cancelSave()">CANCEL</button>
+		<!--
+                <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowDelete/.)='1' and (/sqroot/body/bodyContent/browse/info/curState/@substateCode &lt; 500 or /sqroot/header/info/code/settingMode/. != 'T')">
+                  <button id="child_button_delete" class="flat-button-form flat-btn-grey " style="margin-right:5px;margin-bottom:5px;" onclick="cell_delete('{$lowerCode}', this)">DELETE</button>
+                </xsl:if>
+		-->
                 <xsl:if test="(/sqroot/body/bodyContent/browse/info/permission/allowAdd/.)=1 and (/sqroot/body/bodyContent/browse/info/permission/allowExport/.)=1" >
                   <button id="child_button_download" class="btn btn-gray-a" style="margin-right:5px;margin-bottom:5px;"
                           onclick="downloadChild('{/sqroot/body/bodyContent/browse/info/code}', '')">DOWNLOAD</button>
@@ -179,10 +118,6 @@
                     childPageNo('childPageNo', code, pageNo, nbPages);
                   </script>
                 </xsl:if>
-		<div style="clear:both">&#xA0;</div>
-                <p style="font-size:13px; font-weight:bold; width:70%">*Note : DGT form is a form of Indonesian tax authority that must be completed by overseas service vendors.
-		DGT Form must have signature and approval from the tax authorities in the country as evidence that the vendor is a taxpayer in his country</p>
-               
               </div>
             </div>
           </div>
@@ -232,6 +167,7 @@
   </xsl:template>
 
   <xsl:template match="sqroot/body/bodyContent/browse/content/row">
+
     <xsl:variable name="pageNo" select="/sqroot/body/bodyContent/browse/info/pageNo" />
     <tr id="tr1_{@code}{@GUID}" data-parent="#{/sqroot/body/bodyContent/browse/info/code}" data-target="#{@code}{@GUID}"
         data-code="{@code}" data-guid="{@GUID}"
@@ -276,28 +212,13 @@
           <xsl:value-of select="format-number(., '###,###,###,##0.0000', 'dot-dec')"/>
         </xsl:when>
         <xsl:otherwise>
-          
-          <xsl:choose>
-            <xsl:when test="@editor = 'attachment' and .!=''">
-              View
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="."/>
-            </xsl:otherwise>
-          </xsl:choose>
-          
+          <xsl:value-of select="."/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>
-      <xsl:when test="@editor = 'attachment' and .!=''">
-        <td class="cell"   onclick="javascript:popTo('OPHcore/api/msg_download.aspx?fieldAttachment={@caption}&#38;code={../../@code}&#38;GUID={../../@GUID}');">
-     
-          <xsl:value-of select="$tbContent"/>
-        </td>
-      </xsl:when>
       <xsl:when test="@editor">
-        <td class="cell cell-editor-{@editor}" data-id="{@id}" data-olds="{.}" data-field="{@caption}" data-preview="{@preview}" data-wf1="{@wf1}" data-wf2="{@wf2}">
+        <td class="cell cell-editor-{@editor}" data-id="{@id}" data-field="{@caption}" data-preview="{@preview}" data-wf1="{@wf1}" data-wf2="{@wf2}">
           <xsl:attribute name="align">
             <xsl:choose>
               <xsl:when test="@align=0">left</xsl:when>
